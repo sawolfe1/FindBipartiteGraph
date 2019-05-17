@@ -23,8 +23,7 @@ def main(matrix):
         print("Not Symmetric")
         return
 
-    print(f"Vertices: {findBipartite(matrix)}")
-    return
+    return findBipartite(matrix)
 
 def checkSquareMatrix(matrix):
 
@@ -113,7 +112,7 @@ def findBipartite(matrix):
         for j in range(length):
             edge = matrix[u["id"]][j]
             if edge:
-                if graph[j]["bcolor"] == u["bcolor"]:
+                if graph[j]["bcolor"] == u["bcolor"] and u['parent']['id'] != graph[j]['id']:
                     isBipartite = False
                 if graph[j]["color"] == "WHITE":
                     if onBlue:
@@ -149,13 +148,15 @@ def findBipartite(matrix):
                                 shortestCycle += f"{grancestor} --> "   
                         shortestCycle += f"{u['id']}"
                                           
-        #u["color"] = "BLACK"
         onBlue = not onBlue
-    #print(json.dumps(graph, indent = 2))
-    print(isBipartite)
-    print(red)
-    print(blue)
-    print(f"Shortest Cycle: {shortestCycle}")
+    if isBipartite:
+        print("This graph is Bipartite")
+        print(f"V1: {red}")
+        print(f"V2: {blue}")
+    else:
+        print("This graph is not Bipartite")
+        print(f"Cycle: {shortestCycle}")
+
     return(girth)
 
 while True:
